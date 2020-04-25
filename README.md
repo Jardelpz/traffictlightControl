@@ -1,20 +1,20 @@
 # Assembly Traffic Liht
 
-A assembly program contorls the traffic jam.
+An assembly program controls the traffic jam.
 
- ![one](https://user-images.githubusercontent.com/32064166/80270605-f5c51280-868f-11ea-9b83-f7baa8bad9a7.PNG)                  
+ ![one](https://user-images.githubusercontent.com/32064166/80270605-f5c51280-868f-11ea-9b83-f7baa8bad9a7.PNG)              
 ![two](https://user-images.githubusercontent.com/32064166/80270608-fb225d00-868f-11ea-8903-d8fdfb0cb99a.PNG)
 
-![three](https://user-images.githubusercontent.com/32064166/80270609-feb5e400-868f-11ea-8b8e-09c505fac461.PNG)              
+![three](https://user-images.githubusercontent.com/32064166/80270609-feb5e400-868f-11ea-8b8e-09c505fac461.PNG)           
 ![four](https://user-images.githubusercontent.com/32064166/80270610-037a9800-8690-11ea-8d93-15e2be2b0d9f.PNG)
 
 ## Getting Started
 
-To run and test the aplication, you basically need to install the EMU8086 and have their own license.
+To run and test the application, you basically need to install the EMU8086 and have their own license.
 
 ### Prerequisites
 
-Import the library traffict, use the flowwing code:
+Import the library traffict, use the following code:
 
 ```
 #start=Traffic_Lights.exe#
@@ -33,7 +33,7 @@ Our apllication needs controling 12 lights, in order to otimized the system, we 
                     DW 0000000000000000B        
 ```
 
-After that, we ned to set an interval of time to the system read life per line of 'TABLE_LIGHT'. To do that, we call 'PAUSE_5', to stop te apliccation we need the help of Operating System:
+After that, we ned to set an interval of time to keep the light in the same state.  To do that, we call 'PAUSE_5':
 
 ```
 PAUSE_5:                   
@@ -51,9 +51,9 @@ PAUSE_5:
     ret 
 ```
 
-The PUSH an POP were used just to prevent if someday we'll use the registers cx, dx or ah, so we put the informatition into stack segment, after that we restore it.
+The PUSH an POP were used just to prevent if someday we'll use the registers cx, dx or ah. So we put the informatition into stack segment, after that we restore it.
 
-Now, we need find someway to storage the 'TABLE_LIGHT', so we will use an a memory to indicate the offset table_light: 
+Now, we need find someway to storage the 'TABLE_LIGHT', so we will use a memory to indicate the offset table_light: 
 
 ```
 MOV SI, OFFSET TABLE_LIGHT
@@ -71,10 +71,10 @@ CALL PAUSE_5
 Important: We're using an a 8bits memory. If each line of Table_light has 16 bits, we can't add 1 at SI, but 2:
 
 ```
- ADD SI, 
+ ADD SI, 2 
  JMP repeat
 ```
-To control when we are at last line of Table_light que compare and restart the SI value
+To control when we are at last line of Table_light we compare and restart the SI value.
 
 ## Built With
 
