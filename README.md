@@ -1,4 +1,4 @@
-# Assembly Traffic Liht
+# Assembly Traffic Light
 
 An assembly program controls the traffic jam.
 
