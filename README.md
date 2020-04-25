@@ -1,6 +1,71 @@
-# traffictlightControl
+# Assembly Traffic Liht
 
-![one](https://user-images.githubusercontent.com/32064166/80270605-f5c51280-868f-11ea-9b83-f7baa8bad9a7.PNG)
+A assembly program contorls the traffic jam.
+
+ ![one](https://user-images.githubusercontent.com/32064166/80270605-f5c51280-868f-11ea-9b83-f7baa8bad9a7.PNG)
 ![two](https://user-images.githubusercontent.com/32064166/80270608-fb225d00-868f-11ea-8903-d8fdfb0cb99a.PNG)
+
 ![three](https://user-images.githubusercontent.com/32064166/80270609-feb5e400-868f-11ea-8b8e-09c505fac461.PNG)
 ![four](https://user-images.githubusercontent.com/32064166/80270610-037a9800-8690-11ea-8d93-15e2be2b0d9f.PNG)
+
+## Getting Started
+
+To run and test the aplication, you basically need to install the EMU8086 and have their own license.
+
+### Prerequisites
+
+Import the library traffict, use the flowwing code:
+
+```
+#start=Traffic_Lights.exe#
+name "traffic"     
+
+```
+
+### How works?
+
+Our apllication needs controling 12 lights, in order to otimized the system, we storage each sequence of light into a DS (Data segment), like this:
+
+```
+    TABLE_LIGHT     DW 0000100001100001B                          
+                    DW 0000010001010001B                     
+                    DW 0000001010001010B                                         
+                    DW 0000001100001100B   
+                    DW 0000000000000000B        
+```
+
+After that, we ned to set an interval of time to the system read life per line of 'TABLE_LIGHT'. To do that, we call 'PAUSE_5', to stop te apliccation we need the help of Operating System:
+
+```
+PAUSE_5:                   
+    PUSH AX
+    PUSH CX
+    PUSH DX
+    ; wait 5 seconds (5 million microseconds in cx e dx)
+    mov     cx, 4Ch    ;    004C4B40h = 5,000,000
+    mov     dx, 4B40h  ; each number in hexa has 4 bits
+    mov     ah, 86h
+    int     15h     
+    POP DX
+    POP CX
+    POP AX
+    ret 
+```
+
+The PUSH an POP were used just to prevent if someday we'll use the registers cx, dx or ah, so we put the informatition into stack segment, after that we restore it.
+
+Now, we need find someway to storage the 'TABLE_LIGHT', so we will use an a memory adress to redirect to the table: 
+
+```
+MOV SI, OFFSET TABLE_LIGHT
+```
+
+
+## Built With
+
+* Assembly
+
+
+This project looks great, - it's time to merge! :shipit:
+
+
