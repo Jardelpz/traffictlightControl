@@ -3,7 +3,7 @@
 name "traffic"
 
 data segment          ;XXXXBA9876543210
-    TABELA_SEMAFORO DW 0000100001100001B       ;DW EQUALS 16 BITS                    
+    TABLE_LIGHT     DW 0000100001100001B                           
                     DW 0000010001010001B                     
                     DW 0000001010001010B                                         
                     DW 0000001100001100B   
@@ -22,21 +22,21 @@ start:
     mov ds, ax
     mov es, ax
 
- inicio:         
-    MOV SI, OFFSET TABELA_SEMAFORO  ; OR LEA SI, TABELA_SEMAFORO    ; SI APONTA PRO ENDEREÇO DE MEMORIA TABELA
+ start:         
+    MOV SI, OFFSET TABLE_LIGHT
 
  repeat:
 
  
     MOV AX, [SI]  
-    cmp ax, 0000000000000000B      ;se chegou no final
-    je inicio 
+    cmp ax, 0000000000000000B     
+    je start 
            
     
-    OUT 4, AX       ;4 e a porta de saida de todos os semaforos
+    OUT 4, AX      
     call PAUSE_5  
     
-    add SI, 2       ;each offset have 8 bits, so, our data have 16, each line of command have to plus 2 go to another
+    add SI, 2     
     add BX, 2 
     jmp repeat
                                   
@@ -47,7 +47,7 @@ start:
      jmp repeat             
                
     
-    mov ax, 4c00h ; exit to operating system.
+    mov ax, 4c00h 
     int 21h     
     
     
@@ -82,4 +82,4 @@ PAUSE_5:
     ret
 ends
 
-end start ; set entry point and stop the assembler.
+end start
